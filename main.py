@@ -56,8 +56,7 @@ async def get_person(id):
         raise HTTPException(status_code=404, detail=f"Person {id} not found")
         
         
-    
-# endpoint to return all movies
+# endpoint to return all movies from swapi
 @app.get('/films', response_description="Return all movies")
 async def get_movies():
     try:
@@ -68,31 +67,26 @@ async def get_movies():
         return {'message': 'Something went please wrong, try again'}
 
 
-# endpoint to return all your saved favorites 
-@app.get('/favorites')
-async def get_fav():
-    return{'message': 'Feature coming soon!'}
-
-
-
-# @app.get("/favorite", response_model=ResponseModel)
-# async def get_all():
-#     _favlist = await FavoriteRepo.get_fav()
-#     print(_favlist)
-#     return ResponseModel(code=200, status="Ok", message="Success retrieve all data", result=_favlist).dict(exclude_none=True)
-
-@app.get("/home", response_description= "Retrive all favorites")
+#Endpoint to get all favorites
+@app.get("/favorites", response_description= "Retrive all favorites")
 async def get_favorites():
     favs = await FavoriteRepo.retrive_favorites()
     if favs:
-        return ResponseModel(favs, "Students retrived successfully")
+        return ResponseModel(favs, "Favorites retrived successfully")
     return ResponseModel(favs, "empty list")
-        
-# @app.post("/favorite", response_description="Get all favs", response_model=ResponseModel)
-# async def create_fav(fav: Favorite = Body(...)):
-#     fav = jsonable_encoder(fav)
-#     new_fav = await database["favorites"].insert_one(fav)
-#     created_fav = await database["favorites"].find_one({"_id": new_fav.inserted_id})
-#     return JSONResponse(status_code=status.HTTP_201_CREATED, content=created_fav)
+
+@app.get('/favorites/{id}', response_description="Return a saved favorite with its id")
+async def get_favorite(id):
+    fav = await FavoriteRepo.retrive_favorite(id)
+    if fav:
+        return ResponseModel(fav, "Favorite Successfully retrived!")
+    return ResponseModel(fav, "Empty List!")
+
+# Endpoint to create a new favorite
+@app.post("/favorite", response_description="create a new fav")
+async def create_fav(fav: Favorite = Body(...)):
+    fav = jsonable_encoder(fav)
+    new_fav = await FavoriteRepo.create_fav(fav)
+    return ResponseModel(new_fav, "Fav added successfully.")
 
 
