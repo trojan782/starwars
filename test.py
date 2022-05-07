@@ -33,6 +33,9 @@ def people_test():
     assert res_json == url_json()
     assert res.status_code == 200 and url_request.status_code == 200
 
-def test_person(id):
+def test_person():
+    id = "<TEST_ID>"
     res = client.get('/people/{id}')
-    url = f'https://sw'
+    url = f'https://swapi.dev/api/people/{id}'
+    person = requests.get(url)
+    assert res.json() == person.json()
