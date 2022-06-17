@@ -17,32 +17,15 @@ jobs:
       - run:
           name: "Say hello"
           command: "echo Hello, World!"
-  
-  print_hello:
-    docker:
-      - image: cimg/base:stable
 
+  say-name:
     steps:
       - checkout
       - run:
-          name: "Print Hello"
-          command: "echo hello"
+          name: "My Name"
+          command: "echo $MY_NAME"
   
-  print_world:
-    docker:
-      - image: cimg/base:stable
-
-    steps:
-      - checkout
-      - run:
-          name: "Print World"
-          command: "echo world"
-
-    get_user_details:
-      - checkout
-      - run:
-          name: "Get details of user"
-          command: echo $MY_NAME
+  
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -51,14 +34,6 @@ workflows:
     jobs:
       - say-hello
   
-  get_user_workflow:
+  say-name-workflow:
     jobs:
-      - get_user_details
-  print_hello_workflow:
-    jobs:
-      - print_hello
-      - print_world:
-            requires:
-                - print_hello
-      
-     
+      - say-name
