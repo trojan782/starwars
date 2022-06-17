@@ -19,6 +19,8 @@ jobs:
           command: "echo Hello, World!"
 
   say-name:
+    docker:
+        - image: cimg/base:stable
     steps:
       - checkout
       - run:
