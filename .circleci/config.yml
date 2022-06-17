@@ -38,10 +38,10 @@ jobs:
           name: "Print World"
           command: "echo world"
 
-    say_name:
+    get_user_details:
       - checkout
       - run:
-          name: "say my name"
+          name: "Get details of user"
           command: echo $MY_NAME
 
 # Invoke jobs via workflows
@@ -51,10 +51,14 @@ workflows:
     jobs:
       - say-hello
   
+  get_user_workflow:
+    jobs:
+      - get_user_details
   print_hello_workflow:
     jobs:
       - print_hello
       - print_world:
             requires:
                 - print_hello
+      
      
