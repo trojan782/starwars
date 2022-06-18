@@ -38,7 +38,8 @@ jobs:
               echo "Hello World" > workspace/output.txt
       - persist_to_workspace:
           root: workspace
-          paths: output.txt
+          paths: 
+            - output.txt
   
   print_output_file:
     docker:
@@ -57,15 +58,20 @@ workflows:
   say-hello-workflow:
     jobs:
       - say-hello
-
-  save-hello-workflow:
-    jobs:
       - save_hello_world_output
-  
-  print-output:
-    jobs:
-      - print_output_file
+      - print_output_file:
+            - requires: 
+                - save_hello_world_output
 
-  say-name-workflow:
-    jobs:
-      - say-name
+
+  # save-hello-workflow:
+  #   jobs:
+  #     - save_hello_world_output
+  
+  # print-output:
+  #   jobs:
+  #     - print_output_file
+
+  # say-name-workflow:
+  #   jobs:
+  #     - say-name
