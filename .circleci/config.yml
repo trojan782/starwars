@@ -47,7 +47,7 @@ jobs:
       - attach_workspace:
           at: /tmp/workspace
       - run: |
-            cat output.txt
+            cat /tmp/workspace/output.txt
   
   
 
@@ -65,7 +65,7 @@ workflows:
   print-output:
     jobs:
       - print_output_file
-      
+
   say-name-workflow:
     jobs:
       - say-name
