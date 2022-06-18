@@ -27,6 +27,28 @@ jobs:
           name: "My Name"
           command: "echo $MY_NAME"
   
+  save_hello_world_output:
+    docker:
+        - image: cimg/base:stable
+    steps:
+      - run: mkdir -p workspace
+      - run:
+          name: "Save Output"
+          command: |
+              echo "Hello World" > workspace/output.txt
+      - persist_to_workspace:
+          root: workspace
+          paths: output.txt
+  
+  print_output_file:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: |
+            cat output.txt
+  
   
 
 # Invoke jobs via workflows
@@ -35,7 +57,15 @@ workflows:
   say-hello-workflow:
     jobs:
       - say-hello
+
+  save-hello-workflow:
+    jobs:
+      - save_hello_world_output
   
+  print-output:
+    jobs:
+      - print_output_file
+      
   say-name-workflow:
     jobs:
       - say-name
