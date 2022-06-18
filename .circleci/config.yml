@@ -60,18 +60,6 @@ workflows:
       - say-hello
       - save_hello_world_output
       - print_output_file:
-            - requires: 
-                - save_hello_world_output
-
-
-  # save-hello-workflow:
-  #   jobs:
-  #     - save_hello_world_output
-  
-  # print-output:
-  #   jobs:
-  #     - print_output_file
-
-  # say-name-workflow:
-  #   jobs:
-  #     - say-name
+          requires:
+            - save_hello_world_output
+            
