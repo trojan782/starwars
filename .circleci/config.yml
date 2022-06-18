@@ -5,10 +5,11 @@ version: 2.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 commands:
-  print_pipeline_id:
-    description: "Simple command to print pipeline ID"
+    print_pipeline_id:
+      description: "Simple command to print pipeline ID"
       steps:  
         - run: echo ${CIRCLE_WORKFLOW_ID}
+        
 jobs:
   say-hello:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
@@ -58,13 +59,13 @@ jobs:
   print_id:
     docker:
       - image: cimg/base:stable
-        steps:
-          - print_pipeline_id
+    steps:
+        - print_pipeline_id
   
 workflows:
   say-hello-workflow:
     jobs:
-      - print_pipeline_id
+      - print_id
       - say-hello
       - save_hello_world_output
       - print_output_file:
